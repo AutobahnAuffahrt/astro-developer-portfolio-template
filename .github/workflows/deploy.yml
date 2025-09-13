@@ -59,9 +59,15 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y lftp
 
+          echo "Checking SSH key auth (BatchMode)"
+          ssh -i ~/.ssh/deploy_key -o BatchMode=yes -p "${PORT}" "${USER}@${HOST}" 'echo AUTH_OK' || { echo "Key authentication failed for ${USER}@${HOST}:${PORT}"; exit 1; }
+
           echo "Uploading ./dist -> sftp://${USER}@${HOST}:${PORT}${REMOTE_PATH} using lftp mirror"
           # Use lftp with SFTP and the ssh identity file; mirror -R will upload directory recursively and delete remote extraneous files
-          lftp -u "${USER}," -p "${PORT}" sftp://${HOST} -e "set sftp:connect-program 'ssh -a -x -i ~/.ssh/deploy_key -p ${PORT}'; mirror -R --delete --verbose ./dist ${REMOTE_PATH}; bye"
+          lftp -e "set sftp:connect-program 'ssh -a -x -i ~/.ssh/deploy_key -p ${PORT}'; open sftp://${USER}@${HOST}; mirror -R --delete --verbose ./dist ${REMOTE_PATH}; bye"
 
           echo "SFTP upload finished"
+
+          echo "Removing temporary private key"
+          shred -u ~/.ssh/deploy_key || rm -f ~/.ssh/deploy_key || true
         shell: bash

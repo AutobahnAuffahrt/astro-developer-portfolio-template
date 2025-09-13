@@ -1,6 +1,7 @@
 # build output
 dist/
 ftp.md
+deploy_*
 
 
 # generated types
