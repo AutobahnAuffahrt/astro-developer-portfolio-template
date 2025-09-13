@@ -24,51 +24,16 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Add host to known_hosts
-        env:
-          HOST: ${{ secrets.HETZNER_HOST }}
-          PORT: ${{ secrets.HETZNER_PORT }}
-        run: |
-          mkdir -p ~/.ssh
-          if [ -z "$PORT" ]; then PORT=22; fi
-          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
-        shell: bash
-
-      - name: Deploy via SFTP (lftp mirror) using SSH key
-        env:
-          HOST: ${{ secrets.HETZNER_HOST }}
-          USER: ${{ secrets.HETZNER_USER }}
-          REMOTE_PATH: ${{ secrets.HETZNER_REMOTE_PATH }}
-          PORT: ${{ secrets.HETZNER_PORT }}
-        run: |
-          # defaults
-          if [ -z "${PORT}" ]; then PORT=22; fi
-          if [ -z "${REMOTE_PATH}" ]; then echo "REMOTE_PATH is not set"; exit 1; fi
-
-          echo "Writing private key to temporary file"
-          mkdir -p ~/.ssh
-          printf '%s\n' "${{ secrets.HETZNER_SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-
-          echo "Using rsync over SSH (atomic deploy). Default SSH port for Hetzner Storage Box is 23."
-          # set default port to 23 for Hetzner Storage Box if not provided
-          if [ -z "${PORT}" ]; then PORT=23; fi
-
-          TIMESTAMP=$(date +"%Y%m%d%H%M%S")
-          RELEASE_DIR="releases/${TIMESTAMP}-${GITHUB_RUN_ID}"
-
-          echo "Creating remote release dir: ${REMOTE_PATH}/${RELEASE_DIR}"
-          ssh -i ~/.ssh/deploy_key -p "${PORT}" "${USER}@${HOST}" "mkdir -p '${REMOTE_PATH}/${RELEASE_DIR}'"
-
-          echo "Rsyncing ./dist -> ${USER}@${HOST}:${REMOTE_PATH}/${RELEASE_DIR} (port ${PORT})"
-          rsync -az --delete -e "ssh -i ~/.ssh/deploy_key -p ${PORT} -o StrictHostKeyChecking=yes" ./dist/ "${USER}@${HOST}:${REMOTE_PATH}/${RELEASE_DIR}/"
-
-          echo "Updating current symlink to point to new release"
-          ssh -i ~/.ssh/deploy_key -p "${PORT}" "${USER}@${HOST}" "ln -sfn '${REMOTE_PATH}/${RELEASE_DIR}' '${REMOTE_PATH}/current' && echo 'symlink updated'"
-
-          echo "Cleaning up old releases, keeping 5"
-          ssh -i ~/.ssh/deploy_key -p "${PORT}" "${USER}@${HOST}" "cd '${REMOTE_PATH}' && ls -1dt releases/* 2>/dev/null | tail -n +6 | xargs -r rm -rf || true"
-
-          echo "Removing temporary private key"
-          shred -u ~/.ssh/deploy_key || rm -f ~/.ssh/deploy_key || true
-        shell: bash
+      - name: Deploy via FTPS (SamKirkland/FTP-Deploy-Action)
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USER }}
+          password: ${{ secrets.HETZNER_PASSWORD }}
+          protocol: ftps
+          # port defaults to 21 if not provided
+          # port: ${{ secrets.HETZNER_PORT }}
+          local-dir: ./dist
+          server-dir: ${{ secrets.HETZNER_REMOTE_PATH }}
+          # Uncomment to wipe remote target before upload (use with caution)
+          # dangerous-clean-slate: true
