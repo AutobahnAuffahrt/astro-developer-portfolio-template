@@ -50,21 +50,24 @@ jobs:
           printf '%s\n' "${{ secrets.HETZNER_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-          echo "Installing lftp"
-          sudo apt-get update -y
-          sudo apt-get install -y lftp
+          echo "Using rsync over SSH (atomic deploy). Default SSH port for Hetzner Storage Box is 23."
+          # set default port to 23 for Hetzner Storage Box if not provided
+          if [ -z "${PORT}" ]; then PORT=23; fi
 
-          echo "Checking SFTP key auth (BatchMode)"
-          # Test SFTP login by opening a connection and immediately quitting. This works on SFTP-only hosts.
-          if ! printf 'quit\n' | sftp -oBatchMode=yes -i ~/.ssh/deploy_key -P "${PORT}" "${USER}@${HOST}" >/dev/null 2>&1; then
-            echo "Key authentication failed for ${USER}@${HOST}:${PORT}"; exit 1;
-          fi
+          TIMESTAMP=$(date +"%Y%m%d%H%M%S")
+          RELEASE_DIR="releases/${TIMESTAMP}-${GITHUB_RUN_ID}"
 
-          echo "Uploading ./dist -> sftp://${USER}@${HOST}:${PORT}${REMOTE_PATH} using lftp mirror"
-          # Use lftp with SFTP and the ssh identity file; mirror -R will upload directory recursively and delete remote extraneous files
-          lftp -e "set sftp:connect-program 'ssh -a -x -i ~/.ssh/deploy_key -p ${PORT}'; open sftp://${USER}@${HOST}; mirror -R --delete --verbose ./dist ${REMOTE_PATH}; bye"
+          echo "Creating remote release dir: ${REMOTE_PATH}/${RELEASE_DIR}"
+          ssh -i ~/.ssh/deploy_key -p "${PORT}" "${USER}@${HOST}" "mkdir -p '${REMOTE_PATH}/${RELEASE_DIR}'"
 
-          echo "SFTP upload finished"
+          echo "Rsyncing ./dist -> ${USER}@${HOST}:${REMOTE_PATH}/${RELEASE_DIR} (port ${PORT})"
+          rsync -az --delete -e "ssh -i ~/.ssh/deploy_key -p ${PORT} -o StrictHostKeyChecking=yes" ./dist/ "${USER}@${HOST}:${REMOTE_PATH}/${RELEASE_DIR}/"
+
+          echo "Updating current symlink to point to new release"
+          ssh -i ~/.ssh/deploy_key -p "${PORT}" "${USER}@${HOST}" "ln -sfn '${REMOTE_PATH}/${RELEASE_DIR}' '${REMOTE_PATH}/current' && echo 'symlink updated'"
+
+          echo "Cleaning up old releases, keeping 5"
+          ssh -i ~/.ssh/deploy_key -p "${PORT}" "${USER}@${HOST}" "cd '${REMOTE_PATH}' && ls -1dt releases/* 2>/dev/null | tail -n +6 | xargs -r rm -rf || true"
 
           echo "Removing temporary private key"
           shred -u ~/.ssh/deploy_key || rm -f ~/.ssh/deploy_key || true
