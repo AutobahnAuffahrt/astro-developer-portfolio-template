@@ -39,30 +39,29 @@ jobs:
           ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
         shell: bash
 
-      - name: Deploy via rsync (atomic)
+      - name: Deploy via SFTP (lftp mirror) using SSH key
         env:
           HOST: ${{ secrets.HETZNER_HOST }}
           USER: ${{ secrets.HETZNER_USER }}
           REMOTE_PATH: ${{ secrets.HETZNER_REMOTE_PATH }}
           PORT: ${{ secrets.HETZNER_PORT }}
-          KEEP_RELEASES: 5
         run: |
           # defaults
           if [ -z "${PORT}" ]; then PORT=22; fi
           if [ -z "${REMOTE_PATH}" ]; then echo "REMOTE_PATH is not set"; exit 1; fi
 
-          TIMESTAMP=$(date +"%Y%m%d%H%M%S")
-          RELEASE_DIR="releases/${TIMESTAMP}-${GITHUB_RUN_ID}"
+          echo "Writing private key to temporary file"
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.HETZNER_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
 
-          echo "Creating remote release dir: ${REMOTE_PATH}/${RELEASE_DIR}"
-          ssh -p "${PORT}" "${USER}@${HOST}" "mkdir -p '${REMOTE_PATH}/${RELEASE_DIR}'"
+          echo "Installing lftp"
+          sudo apt-get update -y
+          sudo apt-get install -y lftp
 
-          echo "Rsyncing ./dist -> ${USER}@${HOST}:${REMOTE_PATH}/${RELEASE_DIR}"
-          rsync -az --delete -e "ssh -p ${PORT}" ./dist/ "${USER}@${HOST}:${REMOTE_PATH}/${RELEASE_DIR}/"
+          echo "Uploading ./dist -> sftp://${USER}@${HOST}:${PORT}${REMOTE_PATH} using lftp mirror"
+          # Use lftp with SFTP and the ssh identity file; mirror -R will upload directory recursively and delete remote extraneous files
+          lftp -u "${USER}," -p "${PORT}" sftp://${HOST} -e "set sftp:connect-program 'ssh -a -x -i ~/.ssh/deploy_key -p ${PORT}'; mirror -R --delete --verbose ./dist ${REMOTE_PATH}; bye"
 
-          echo "Updating current symlink to point to new release"
-          ssh -p "${PORT}" "${USER}@${HOST}" "ln -sfn '${REMOTE_PATH}/${RELEASE_DIR}' '${REMOTE_PATH}/current' && echo 'symlink updated'"
-
-          echo "Cleaning up old releases, keeping ${KEEP_RELEASES}"
-          ssh -p "${PORT}" "${USER}@${HOST}" "cd '${REMOTE_PATH}' && ls -1dt releases/* 2>/dev/null | tail -n +$((KEEP_RELEASES+1)) | xargs -r rm -rf || true"
+          echo "SFTP upload finished"
         shell: bash
