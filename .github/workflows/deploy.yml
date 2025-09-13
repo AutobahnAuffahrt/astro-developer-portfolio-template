@@ -26,7 +26,7 @@ jobs:
         run: npm run build
 
       - name: Start ssh-agent and add key
-        uses: webfactory/ssh-agent@v0.8.1
+        uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.HETZNER_SSH_KEY }}
 
