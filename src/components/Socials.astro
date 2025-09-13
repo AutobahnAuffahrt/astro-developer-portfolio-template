@@ -2,32 +2,28 @@
 import SocialIcon from './SocialIcon.astro';
 
 interface Social {
-    icon: 'github' | 'linkedIn' | 'twitter' | 'email' | 'xing';
+    icon: 'github' | 'linkedIn' | 'email';
     link: string;
     title?: string;
 }
 
-const socials: Social[] = [{
-    icon: 'github',
-    link: 'https://github.com/devidevio',
-    title: 'View GitHub Profile'
-}, {
-    icon: 'twitter',
-    link: 'https://x.com/devidev_io',
-    title: 'View Twitter Profile'
-}, {
-    icon: 'linkedIn',
-    link: 'https://www.linkedin.com/in/dejan-vi',
-    title: 'View LinkedIn Profile'
-}, {
-    icon: 'xing',
-    link: 'https://www.xing.com/profile/Dejan_Vintonjiv',
-    title: 'View Xing Profile'
-}, {
-    icon: 'email',
-    link: 'mailto:hi@devidev.io',
-    title: 'Send Email'
-}];
+const socials: Social[] = [
+    {
+        icon: 'github',
+        link: 'https://github.com/AutobahnAuffahrt',
+        title: 'GitHub'
+    },
+    {
+        icon: 'linkedIn',
+        link: 'https://www.linkedin.com/in/fridtjof-schuchardt',
+        title: 'LinkedIn'
+    },
+    {
+        icon: 'email',
+        link: 'mailto:fridtjof@schuchardt.cloud',
+        title: 'Email'
+    }
+];
 
 ---
 

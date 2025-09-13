@@ -1,5 +1,7 @@
 # build output
 dist/
+ftp.md
+
 
 # generated types
 .astro/

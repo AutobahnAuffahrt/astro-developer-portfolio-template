@@ -2,25 +2,25 @@
 import '../styles/global.scss';
 
 // Base domain URL without trailing slash
-const domainBaseURL = 'https://devidev.io';
-const ogImageUrl    = 'https://devidev.io/img/meta.png';
+const domainBaseURL = 'https://schuchardt.cloud'; // TODO: Domain anpassen oder belassen
+const ogImageUrl    = '/img/meta.png';
 
 // Website publisher & region
-const authorPublisher   = 'Dejan Vi.';
-const geoRegion         = 'DE-BY';
+const authorPublisher   = 'AutobahnAuffahrt';
+const geoRegion         = 'DE-NW';
 
 // SEO title, description and keywords
-const seoTitle          = 'devi|dev|io | Dejan Vi. | Full Stack Developer';
-const seoDescription    = 'Passionate web developer focused on creating clean, efficient, and scalable web applications with a modern tech stack. Specialized in Angular, TypeScript, and Supabase.';
-const seoKeywords       = 'Full Stack Developer, Dejan Vi, Munich, Papersend, Qivi, TECHPOINT, Angular, Typescript, Supabase';
+const seoTitle          = 'AutobahnAuffahrt | Backend & Unity3D Developer';
+const seoDescription    = 'Backend & Unity3D focused application developer from North Rhine-Westphalia (Germany). AR/VR, multiplayer networking, infrastructure & automation. Exploring AI agents with RAG & MCP.';
+const seoKeywords       = 'AutobahnAuffahrt, Backend Developer, Unity3D, AR VR, Multiplayer, Infrastructure, Automation, RAG, MCP, C++, C#, Python, Qt, Proxmox, Prometheus, Grafana';
 
 // Twitter card data
 const twitter = {
     title:          seoTitle,
     description:    seoDescription,
     image:          ogImageUrl,
-    site:           '@devidev_io',
-    creator:        '@devidev_io'
+    site:           '@', // TODO: Handle ergänzen
+    creator:        '@'
 };
 
 // Open graph data
@@ -30,13 +30,13 @@ const openGraph = {
     url:            domainBaseURL,
     image:          ogImageUrl,
     type:           'website',
-    locale:         'en_US',
-    siteName:       'devi|dev|io'
+    locale:         'de_DE',
+    siteName:       'AutobahnAuffahrt'
 };
 
 // Dublin core
 const dublinCore = {
-    title:          'devi|dev|io',
+    title:          'AutobahnAuffahrt',
     creator:        authorPublisher,
     publisher:      authorPublisher,
     rights:         authorPublisher,

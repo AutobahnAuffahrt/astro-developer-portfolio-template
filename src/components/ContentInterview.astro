@@ -1,45 +1,48 @@
 ---
-import Bio from '../../bio.md';
+import Interview from "../../interview.md";
 ---
 
-<div class="bio-card">
-	<Bio />
+<div class="interview-card">
+	<Interview />
 </div>
 <style is:global>
-	.bio-card {
-			@apply bg-black/80 rounded-xl p-2 mb-4 shadow-lg max-w-3xl mx-auto;
+	.interview-card {
+		@apply bg-black/80 rounded-xl p-2 mb-4 shadow-lg max-w-3xl mx-auto;
 	}
-	.bio-card h1, .bio-card h2, .bio-card h3 {
+	.interview-card h1,
+	.interview-card h2,
+	.interview-card h3 {
 		@apply text-primary font-bold mt-6 mb-2;
 	}
-	.bio-card h1 {
+	.interview-card h1 {
 		@apply text-3xl;
 	}
-	.bio-card h2 {
+	.interview-card h2 {
 		@apply text-2xl;
 	}
-	.bio-card h3 {
+	.interview-card h3 {
 		@apply text-xl;
 	}
-	.bio-card p {
+	.interview-card p {
 		@apply text-gray-300 mb-4 leading-relaxed;
 	}
-	.bio-card ul, .bio-card ol {
+	.interview-card ul,
+	.interview-card ol {
 		@apply list-disc list-inside mb-4 pl-4 text-gray-300;
 	}
-	.bio-card li {
+	.interview-card li {
 		@apply mb-1;
 	}
-	.bio-card a {
+	.interview-card a {
 		@apply text-primary underline hover:text-blue-400 transition;
 	}
-	.bio-card blockquote {
+	.interview-card blockquote {
 		@apply border-l-4 border-primary pl-4 italic text-gray-400 mb-4;
 	}
-	.bio-card code {
+	.interview-card code {
 		@apply bg-gray-800 text-primary px-2 py-1 rounded;
 	}
-	.bio-card img {
+	.interview-card img {
 		@apply rounded-lg shadow mb-4 max-w-full;
 	}
 </style>
