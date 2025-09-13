@@ -33,7 +33,7 @@ jobs:
           protocol: ftps
           # port defaults to 21 if not provided
           # port: ${{ secrets.HETZNER_PORT }}
-          local-dir: ./dist
+          local-dir: ./dist/
           server-dir: ${{ secrets.HETZNER_REMOTE_PATH }}
           # Uncomment to wipe remote target before upload (use with caution)
           # dangerous-clean-slate: true
