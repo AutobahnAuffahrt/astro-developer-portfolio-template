@@ -54,8 +54,11 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y lftp
 
-          echo "Checking SSH key auth (BatchMode)"
-          ssh -i ~/.ssh/deploy_key -o BatchMode=yes -p "${PORT}" "${USER}@${HOST}" 'echo AUTH_OK' || { echo "Key authentication failed for ${USER}@${HOST}:${PORT}"; exit 1; }
+          echo "Checking SFTP key auth (BatchMode)"
+          # Test SFTP login by opening a connection and immediately quitting. This works on SFTP-only hosts.
+          if ! printf 'quit\n' | sftp -oBatchMode=yes -i ~/.ssh/deploy_key -P "${PORT}" "${USER}@${HOST}" >/dev/null 2>&1; then
+            echo "Key authentication failed for ${USER}@${HOST}:${PORT}"; exit 1;
+          fi
 
           echo "Uploading ./dist -> sftp://${USER}@${HOST}:${PORT}${REMOTE_PATH} using lftp mirror"
           # Use lftp with SFTP and the ssh identity file; mirror -R will upload directory recursively and delete remote extraneous files
