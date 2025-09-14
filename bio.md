@@ -1,66 +1,62 @@
-# Hey, I'm AutobahnAuffahrt
+# Hey, ich bin Fridtjof Schuchardt 
 
-Application developer from North Rhine-Westphalia, Germany, who enjoys building backend systems and experimenting with various technologies. Open to interesting opportunities, but not actively job hunting.
+Application-Entwickler aus Nordrhein-Westfalen, der gerne Backendsysteme baut und mit verschiedenen Technologien experimentiert. Offen für interessante Möglichkeiten, aber nicht aktiv auf Jobsuche.
 
-## What I do
+## Was ich mache
 
-Mainly backend and application development with a strong focus on Unity3D development. From small multiplayer games to enterprise AR/VR solutions - I love working on system-level stuff and everything around infrastructure and automation.
+Hauptsächlich Backend- und Anwendungsentwicklung mit starkem Fokus auf Unity3D-Entwicklung. Von kleinen Multiplayer-Spielen bis hin zu Enterprise-AR/VR-Lösungen — ich arbeite gern an System-Level-Themen und allem rund um Infrastruktur und Automatisierung.
 
-## Tech Stack
+## Tech-Stack
 
-### Desktop Applications
-- **Languages:** C++, C#, Python
+### Desktop-Anwendungen
+- **Sprachen:** C++, C#, Python
 - **Frameworks:** Qt, WPF, Unity3D, MFC
-- **Build Systems:** CMake, NMake, QMake
+- **Build-Systeme:** CMake, NMake, QMake
 
-### Unity3D & XR Development
-- **Platforms:** Windows Desktop, Android, iOS, WebGL
-- **AR/VR:** Oculus Quest 3, AR with image markers & world anchors
-- **Specialties:** 
-  - Multiplayer networking
-  - Cross-platform AR applications for industrial machinery visualization
-  - VR meeting applications with hand tracking
-  - Mixed reality interactions
+### Unity3D & XR-Entwicklung
+- **Plattformen:** Windows Desktop, Android, iOS, WebGL
+- **AR/VR:** Oculus Quest 3, AR mit Bildmarkern & World Anchors
+- **Spezialgebiete:** 
+  - Multiplayer-Netzwerke
+  - Plattformübergreifende AR-Anwendungen zur Visualisierung von Industriemaschinen
+  - VR-Meeting-Anwendungen mit Hand-Tracking
+  - Interaktionen in Mixed Reality
 
-### Web Development
+### Webentwicklung
 - **Frontend:** Vue.js
 - **Backend:** Python (Flask), OpenAPI/Swagger
 - **Server:** Nginx
-- **Package Management:** NPM
+- **Paketverwaltung:** NPM
 
-### Infrastructure & DevOps
-- **Containerization:** Docker, Docker Compose
+### Infrastruktur & DevOps
+- **Containerisierung:** Docker, Docker Compose
 - **CI/CD:** GitLab Runner, GitHub Actions
-- **Virtualization:** Proxmox
+- **Virtualisierung:** Proxmox
 - **Cloud:** AWS (Storage), Heroku
-- **Scripting:** Bash, Linux Shell Scripts
-- **Build Tools:** Maven
+- **Skripting:** Bash, Linux-Shell-Skripte
+- **Build-Tools:** Maven
 
 ### Monitoring & Analytics
 - **Monitoring:** Prometheus, Check_MK, Grafana
-- **Visualization:** Grafana
+- **Visualisierung:** Grafana
 
-### Databases & Storage
-- **Relational:** PostgreSQL
-- **Time-Series:** Prometheus
+### Datenbanken & Speicherung
+- **Relationale:** PostgreSQL
+- **Zeitreihen:** Prometheus
 
 ### Deployment & Distribution
-- **Installers:** InnoSetup
-- **Build Systems:** CMake, NMake, QMake, Maven
-- **Package Managers:** NPM
+- **Installer:** InnoSetup
+- **Build-Systeme:** CMake, NMake, QMake, Maven
+- **Package-Manager:** NPM
 
-## Currently working on
+## Derzeit in Arbeit
 
-An AI agent that I'm enriching with RAG data. Currently diving deep into the MCP protocol and how to intelligently connect data sources.
+Ein KI-Agent, den ich mit RAG-Daten anreiche. Zurzeit vertiefe ich mich in das MCP-Protokoll und wie man Datenquellen intelligent verbindet.
 
-## GitHub Stats
+## GitHub-Statistiken
 
 ![AutobahnAuffahrt's GitHub stats](https://github-readme-stats.vercel.app/api?username=AutobahnAuffahrt&show_icons=true&theme=dark)
 
 ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=AutobahnAuffahrt&layout=compact&theme=dark)
 
 ![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=AutobahnAuffahrt&theme=dark)
-
----
-
-*From NRW, Germany. I like direct communication and pragmatic solutions.*
