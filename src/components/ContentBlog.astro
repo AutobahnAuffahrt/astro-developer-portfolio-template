@@ -1,0 +1,48 @@
+---
+import Blog from "../../blog.md";
+---
+
+<div class="blog-card">
+	<Blog />
+</div>
+<style is:global>
+	.blog-card {
+		@apply bg-black/80 rounded-xl p-2 mb-4 shadow-lg max-w-3xl mx-auto;
+	}
+	.blog-card h1,
+	.blog-card h2,
+	.blog-card h3 {
+		@apply text-primary font-bold mt-6 mb-2;
+	}
+	.blog-card h1 {
+		@apply text-3xl;
+	}
+	.blog-card h2 {
+		@apply text-2xl;
+	}
+	.blog-card h3 {
+		@apply text-xl;
+	}
+	.blog-card p {
+		@apply text-gray-300 mb-4 leading-relaxed;
+	}
+	.blog-card ul,
+	.blog-card ol {
+		@apply list-disc list-inside mb-4 pl-4 text-gray-300;
+	}
+	.blog-card li {
+		@apply mb-1;
+	}
+	.blog-card a {
+		@apply text-primary underline hover:text-blue-400 transition;
+	}
+	.blog-card blockquote {
+		@apply border-l-4 border-primary pl-4 italic text-gray-400 mb-4;
+	}
+	.blog-card code {
+		@apply bg-gray-800 text-primary px-2 py-1 rounded;
+	}
+	.blog-card img {
+		@apply rounded-lg shadow mb-4 max-w-full;
+	}
+</style>
